@@ -1,0 +1,61 @@
+generated: '2026-08-09'
+method: searched
+source: >-
+  registry searches of npm, PyPI, RubyGems, crates.io, Packagist, NuGet and the
+  civilmaps GitHub organization, 2026-08-09
+result: none
+notes: >-
+  Civil Maps publishes no client SDK, because it publishes no public API. Its public
+  code is C++ robotics source, not a client library: one first-party repository
+  (cm-hal, a hardware abstraction layer for LiDAR packet I/O) and three forks of
+  third-party open-source projects. No `SDKs` pointer is wired in apis.yml, so the
+  sdk_count_1 and sdk_count_3 checks are correctly left unearned.
+packages: []
+registries_checked:
+- registry: npm
+  query: civilmaps / civil-maps
+  result: >-
+    0 results for "civilmaps"; the "civil-maps" query returns 21,533 fuzzy matches on
+    the token "maps" (source-map-support, @react-google-maps/api, react-native-maps),
+    none related to Civil Maps. Direct GET of registry.npmjs.org/civil-maps and
+    /civilmaps both 404.
+- registry: pypi
+  query: civilmaps, civil-maps
+  result: >-
+    404 from the authoritative JSON API (pypi.org/pypi/<name>/json) for both spellings.
+    The HTML project page returns 200 but the body is PyPI's "Client Challenge"
+    bot-check page, not a project page - the JSON API is the reliable signal.
+- registry: rubygems
+  query: civilmaps
+  result: 0 results
+- registry: crates.io
+  query: civilmaps
+  result: 0 results
+- registry: packagist
+  query: civilmaps
+  result: 0 results
+- registry: nuget
+  query: civilmaps
+  result: 0 hits
+- registry: github
+  query: orgs/civilmaps
+  result: >-
+    org exists (id 15333110, created 2015-10-26) with 5 public repositories, all C++
+    or HTML and all dormant - cm-hal (first-party "Civil Maps Hardware Abstraction
+    Layer", last pushed 2017-12-21), velodyne (fork, 2018-04-11), loam_velodyne (fork,
+    2018-03-28), libpointmatcher (fork, 2018-08-15) and civilmaps.github.io (website,
+    2020-11-02). The org github.com/civil-maps does not exist (404).
+source_code:
+- name: cm-hal
+  url: https://github.com/civilmaps/cm-hal
+  language: C++
+  official: true
+  description: >-
+    Civil Maps Hardware Abstraction Layer - laser packet I/O for Quanergy M8-class
+    LiDAR, plus a sample pcap dataset and webinar lab scripts. Source, not a
+    distributable package; nothing is published to a package registry.
+  last_pushed: '2017-12-21'
+forks_not_first_party:
+- https://github.com/civilmaps/velodyne
+- https://github.com/civilmaps/loam_velodyne
+- https://github.com/civilmaps/libpointmatcher

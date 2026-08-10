@@ -1,0 +1,120 @@
+generated: '2026-08-09'
+method: probed
+source: >-
+  live probes of /.well-known/ and contract-discovery paths on every Civil Maps host,
+  2026-08-09
+result: >-
+  none - Civil Maps publishes no /.well-known/ document and no machine-readable API
+  contract. civilmaps.com is a static four-page marketing archive behind Cloudflare
+  whose origin answers EVERY unknown path with HTTP 200 and the 7,082-byte homepage
+  shell. Nothing below is a real document; every 200 in this file is a soft-404.
+soft_404_control:
+  note: >-
+    The 200s recorded below are NOT evidence of a document. A deliberate nonsense
+    control path was fetched alongside the real probes and returned the same status,
+    the same content-type and the same byte count as every other miss.
+  control_url: https://civilmaps.com/zzz-no-such-path-9f3a
+  control_status: 200
+  control_content_type: text/html; charset=utf-8
+  control_size_bytes: 7082
+  shell_title: Civil Maps | HD Maps and Localization
+  conclusion: >-
+    Any path returning 200 + text/html + 7082 bytes is the catch-all homepage, not a
+    published artifact. Real pages on this site return distinct, smaller bodies
+    (/contact/ 4710, /team/ 5321, /jobs/ 5673, /category/updates/ 4871 bytes).
+hosts:
+- host: https://civilmaps.com
+  platform: Cloudflare (static site; server:cloudflare, cf-cache-status:DYNAMIC)
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    verdict: soft-404 (homepage shell, 7082 bytes)
+  - path: /.well-known/openid-configuration
+    status: 200
+    verdict: soft-404 (homepage shell, 7082 bytes)
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    verdict: soft-404 (homepage shell, 7082 bytes)
+  - path: /.well-known/api-catalog
+    status: 200
+    verdict: soft-404 (homepage shell, 7082 bytes)
+  - path: /.well-known/ai-plugin.json
+    status: 200
+    verdict: soft-404 (homepage shell, 7082 bytes)
+  - path: /.well-known/agent-card.json
+    status: 200
+    verdict: soft-404 (homepage shell, 7082 bytes)
+  - path: /.well-known/agent.json
+    status: 200
+    verdict: soft-404 (homepage shell, 7082 bytes)
+  - path: /openapi.json
+    status: 200
+    verdict: soft-404 (homepage shell, 7082 bytes)
+  - path: /swagger.json
+    status: 200
+    verdict: soft-404 (homepage shell, 7082 bytes)
+  - path: /api-docs
+    status: 200
+    verdict: soft-404 (homepage shell, 7082 bytes)
+  - path: /llms.txt
+    status: 200
+    verdict: soft-404 (homepage shell, 7082 bytes)
+  - path: /graphql
+    status: 200
+    verdict: soft-404 (homepage shell, 7082 bytes); no GraphQL surface to introspect
+  - path: /developers
+    status: 200
+    verdict: soft-404 (homepage shell, 7082 bytes)
+  - path: /developer
+    status: 200
+    verdict: soft-404 (homepage shell, 7082 bytes)
+  - path: /api
+    status: 200
+    verdict: soft-404 (homepage shell, 7082 bytes)
+  - path: /robots.txt
+    status: 200
+    verdict: real document
+    note: >-
+      Allows all general crawlers; disallows only SEO scrapers (AhrefsBot, SemrushBot,
+      MJ12bot, DotBot, Rogerbot, serpstatbot, SistrixBot). No AI-crawler block list.
+      Declares Sitemap: https://civilmaps.com/sitemap.xml
+  - path: /sitemap.xml
+    status: 200
+    verdict: real document
+    note: >-
+      91 URLs, all marketing/blog pages dating 2015-2019 (about-us, team, jobs, contact,
+      events, news posts, tag and category archives, visual-demos). No developer,
+      docs, API or reference path appears anywhere in the sitemap.
+hosts_that_do_not_resolve:
+- api.civilmaps.com
+- developer.civilmaps.com
+- docs.civilmaps.com
+contract_discovery:
+  openapi: >-
+    not found - /openapi.json, /openapi.yaml, /swagger.json, /api-docs and /api all
+    return the homepage shell. There is no API host to probe: api.civilmaps.com does
+    not resolve (NXDOMAIN).
+  graphql: >-
+    not applicable - /graphql returns the homepage shell, not a GraphQL endpoint, so
+    there is nothing to POST an introspection query against.
+  mcp: >-
+    not found - no hosted MCP server, no mcp. subdomain, no tools/list surface.
+  a2a_agent_card: >-
+    MISS. Both /.well-known/agent-card.json and the legacy /.well-known/agent.json
+    return HTTP 200 with an HTML body identical to the homepage - the dominant
+    false-positive shape for this probe. Rejected. No a2a/ artifact is written and no
+    AgentCard pointer is wired.
+  conclusion: >-
+    Civil Maps publishes no machine-readable API contract of any kind. This is a
+    completed negative result, not an unfinished probe.
+pointer_note: >-
+  No `WellKnown` pointer is wired into apis.yml. The well_known_catalog check reads a
+  real /.well-known/api-catalog (RFC 9727) linkset, and none exists here - crediting it
+  off a soft-404 200 would be false credit. This file is a probe record only.
+x-evidence:
+  fetched: '2026-08-09'
+  method: >-
+    curl GET with a desktop browser User-Agent (a naked curl UA is answered with HTTP
+    403 by Cloudflare on this origin), 20s timeout, byte counts compared against a
+    nonsense control path
+  dns_method: dig +short A on candidate API/docs/developer subdomains

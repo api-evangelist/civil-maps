@@ -17,6 +17,18 @@ description: >-
   contract, and its 2015-era GitHub organization holds five C++ repositories last pushed
   between 2017 and 2020.
 url: https://raw.githubusercontent.com/api-evangelist/civil-maps/refs/heads/main/apis.yml
+deliveryModel:
+  model: self-hosted
+  license: GPL-3.0
+  open_source: true
+  commercial: false
+  callable_host: false
+  label: Self-hosted open source · you run it yourself
+  confidence: high
+  source:
+  - license
+  generated: '2026-08-28'
+  method: derived
 image: https://avatars.githubusercontent.com/u/15333110?v=4
 x-type: company
 x-source: harvest:secondary-market
